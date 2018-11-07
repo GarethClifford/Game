@@ -6,7 +6,9 @@ var playerDirectionX = 0;
 var playerDirectionY = 0;
 var lastUpdate = 0;
 
-canvas.style.backgroundImage = "url('images/orig.gif')";
+
+
+canvas.style.backgroundImage = "url('images/falling.gif')";
 
 var rocket = new Image();
 rocket.onload = function() {
@@ -14,8 +16,7 @@ rocket.onload = function() {
 }
 rocket.src = "images/icons8-fighter-jet-48.png";
 
-addEventListener("keydown",function(e)
-{
+addEventListener("keydown",function(e) {
     if(e.keyCode == 39 || e.keyCode == 68) {
         playerDirectionX = 4;
     }
@@ -28,39 +29,43 @@ addEventListener("keydown",function(e)
     if( e.keyCode == 40 || e.keyCode == 83) {
       playerDirectionY = 4;
     }
-  });
+  }
+);
 addEventListener("keyup", function(e) {
   playerDirectionX = false;
   playerDirectionY = false;
 });
 
-
-// this line cause a function (Tick) to be performed every 16 milliseconds
+addEventListener("keydown",function(e) {
+  if(e.keyCode == 76) {
+    shootMissile();
+  }
+});
 var current = setInterval(Tick,16);
 
-function Tick()
-{
-// these 3 lines keep the flow of the game moving - they may not be necessary for you
+function Tick() {
     var now = Date.now();
     var dt = now - lastUpdate;
     lastUpdate = now;
-// update checks the game conditions and changes them as necessary
     Update(dt);
-//render redraws what it needs to draw based upon the games conditions
     Render(dt);
-
 }
 
+function shootMissile() {
+  var elem = document.getElementById('missile');
+  var pos = 0;
+  var id = setInterval(frame,5);
+  pos++;
+  elem.style.top = pos + 'px';
+  elem.style.left = pos + 'px';
+  }
+
 function Update(dt) {
-  //updating the positon of the ship
   posX +=playerDirectionX;
   posY +=playerDirectionY
   //update astroids positions
 }
 function Render(dt) {
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  // rocket.onload = function() {
     ctx.drawImage(rocket,posX,posY);
-  // }
-  // rocket.src = "images/icons8-fighter-jet-48.png";
 }
